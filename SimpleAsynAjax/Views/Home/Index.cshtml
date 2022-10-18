@@ -1,0 +1,86 @@
+﻿<h3>AjaxAndjQuery</h3>
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Please enter the details below.</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group col-md-6">
+                <label>Simple Attribute Details:</label>
+                <input type="text" name="simplAttr" id="simplAttr" class="form-control" placeholder="Add some details to Simple Attribute" required="" />
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <div style="float: right; display:inline-block;">
+                    <input class="btn btn-primary" name="submitButton" id="btnSave" value="Save" type="button">
+                </div>
+            </div>
+        </div>
+    </div><hr />
+    <table id="tblSimpleAttribute" class="table table-bordered table-striped table-responsive table-hover">
+        <thead>
+            <tr>
+                <th align="left" class="productth col-md-6">Table Identity</th>
+                <th align="left" class="productth col-md-6">Simple Attribute Details</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(() => {
+            Create();
+
+            function Create() {
+
+                $.get({
+                    url: "@Url.Action("GetExampleTable", "Home")",
+                    success: (data) => {
+                        let databaseData = JSON.parse(data);
+
+                        console.log(databaseData);
+
+                        $("#table-body").empty();
+
+                        $(databaseData).each((i, e) => {
+                            $("#table-body").append(`<tr data-id="${e.SimpleID}"><td>${e.SimpleAttribute}</td></tr>`);
+                        });
+                    }
+                });
+
+
+            }
+
+
+            function LoadData() {
+
+        /*Combination of AJAX, JSON and jQuery.*/
+        /*Carefully consider the id's in the HTML above.*/
+
+            }
+            $("#btnSave").on("click", () => {
+                $.post({
+                    url: "@Url.Action("Add", "Home")",
+                    data: {
+                        name: $("#simplAttr").val()
+                    },
+                    success: (data) => {
+                        let msg = JSON.parse(data);
+
+                        alert(msg.message);
+                        Create();
+                    }
+                });
+            });
+
+        }
+    </script>
+}
+
