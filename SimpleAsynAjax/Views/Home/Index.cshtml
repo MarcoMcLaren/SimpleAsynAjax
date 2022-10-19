@@ -35,15 +35,15 @@
 @section Scripts
 {
     <script type="text/javascript">
-        $(document).ready(() => {
+        $(document).ready(function () {
             Create();
-
+        });
             function Create() {
 
                 $.get({
                     url: "@Url.Action("GetExampleTable", "Home")",
                     success: (data) => {
-                        let databaseData = JSON.parse(data);
+                        let databaseData = (data);
 
                         console.log(databaseData);
 
@@ -54,17 +54,9 @@
                         });
                     }
                 });
-
-
             }
 
 
-            function LoadData() {
-
-        /*Combination of AJAX, JSON and jQuery.*/
-        /*Carefully consider the id's in the HTML above.*/
-
-            }
             $("#btnSave").on("click", () => {
                 $.post({
                     url: "@Url.Action("Add", "Home")",
@@ -80,7 +72,6 @@
                 });
             });
 
-        }
     </script>
 }
 

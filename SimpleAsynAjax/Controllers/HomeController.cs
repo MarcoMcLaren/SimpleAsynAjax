@@ -22,18 +22,8 @@ namespace SimpleAsynAjax.Controllers
             return View();
             }
 
-        //[HttpPost]
-        public string Create()
-            {
-            //----------- Edit Here -----------
-
-                object databaseData = db.ExampleTables.Select(p => new { SimpleID = p.SimpleID, SimpleAttribute = p.SimpleAttribute}).ToList();
-                return JsonConvert.SerializeObject(databaseData);
-        }
-
         public JsonResult GetExampleTable()
             {
-            //----------- Edit Here -----------
             object databaseData = db.ExampleTables.Select(p => new { SimpleID = p.SimpleID, SimpleAttribute = p.SimpleAttribute }).ToList();
             return Json(databaseData, JsonRequestBehavior.AllowGet); // <<<<<<<<< You will need to change this to a Json return.
             }
@@ -47,20 +37,6 @@ namespace SimpleAsynAjax.Controllers
             return JsonConvert.SerializeObject(new { message = "New playlist added!" });
         }
 
-        public string Get(int id)
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-
-            object tracks = db.ExampleTables.Include("Track.Album.Artist").Where(p => p.SimpleID == id);
-
-            object data = new
-            {
-                db.ExampleTables.Where(p => p.SimpleID == id).First().SimpleID,
-                Tracks = tracks
-            };
-
-            return JsonConvert.SerializeObject(data);
-        }
     }
     }
 
